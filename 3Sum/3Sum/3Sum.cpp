@@ -6,7 +6,7 @@
 #include "TypeDef.h"
 #include "vector"
 
-int32 threeSum(std::vector<int32>& Array)
+int32* threeSum(std::vector<int32>& Array)
 {
 	uint32 ArraySize = Array.size();
 	int32 SortedArray[] = { 0 };
@@ -96,6 +96,7 @@ int32 threeSum(std::vector<int32>& Array)
 						TripletArray[0] = Array[i];
 						TripletArray[1] = Array[j];
 						TripletArray[2] = Array[k];
+						return TripletArray;
 					}
 				}
 			}
@@ -112,7 +113,7 @@ int32 threeSum(std::vector<int32>& Array)
 
 	std::cout << "\ntriplets = " << TripletArray[0] << "\t" << TripletArray[1] << "\t" << TripletArray[2];
 
-	return 1;
+	return TripletArray;
 }
 
 
@@ -123,7 +124,9 @@ int main()
 
 	std::vector <int32> Array(DataArray, DataArray + Size);
 
-	uint32 dummy = threeSum(Array);
+	int32* Ptr = threeSum(Array);
+
+	std::cout << "\nTriplets =" << *Ptr << "\t" << *(Ptr + 1) << "\t" << *(Ptr + 2);
 
 	while (true)
 	{
