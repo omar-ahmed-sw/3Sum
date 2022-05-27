@@ -6,11 +6,11 @@
 #include "TypeDef.h"
 #include "vector"
 
-int32* threeSum(std::vector<int32>& Array)
+std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 {
-	uint32 ArraySize = Array.size();
+	const uint32 ArraySize = Array.size();
 	int32 SortedArray[] = { 0 };
-	int32 TripletArray[3] = { 0 };
+	std::vector<std::vector<int32>> TripletArray ;
 	uint32 LastNegativeIndex = NAN;
 	uint32 ZeroIndex = NAN ;
 	uint32 FirstPositiveIndex = NAN;
@@ -93,10 +93,22 @@ int32* threeSum(std::vector<int32>& Array)
 				{
 					if ((Array[k] * -1) == (Array[i] + Array[j]))
 					{
-						TripletArray[0] = Array[i];
-						TripletArray[1] = Array[j];
-						TripletArray[2] = Array[k];
-						return TripletArray;
+						static uint32 Dimension = 0U;
+						TripletArray[Dimension].push_back(Array[i]);
+						TripletArray[Dimension].push_back(Array[j]);
+						TripletArray[Dimension].push_back(Array[k]);
+
+
+						++Dimension;
+
+					/*	
+					static uint32 Dimension = 0U;
+						TripletArray[Dimension][0] = Array[i];
+						TripletArray[Dimension][1] = Array[j];
+						TripletArray[Dimension][2] = Array[k];
+						++Dimension;
+						//return TripletArray;
+						*/
 					}
 				}
 			}
@@ -111,9 +123,9 @@ int32* threeSum(std::vector<int32>& Array)
 		}
 	}
 
-	std::cout << "\ntriplets = " << TripletArray[0] << "\t" << TripletArray[1] << "\t" << TripletArray[2];
+	//std::cout << "\ntriplets = " << TripletArray[0] << "\t" << TripletArray[1] << "\t" << TripletArray[2];
 
-	return TripletArray;
+	return  TripletArray;
 }
 
 
@@ -122,12 +134,24 @@ int main()
 	int32 DataArray[] = { 3,-1,4,-2,1,1,-2,-1, 0};
 	uint32 Size = sizeof(DataArray) / sizeof(DataArray[0]);
 
+
+
 	std::vector <int32> Array(DataArray, DataArray + Size);
 
-	int32* Ptr = threeSum(Array);
+	//int32 Ptr = threeSum(Array);
 
-	std::cout << "\nTriplets =" << *Ptr << "\t" << *(Ptr + 1) << "\t" << *(Ptr + 2);
+	//std::cout << "\nTriplets =" << *Ptr << "\t" << *(Ptr + 1) << "\t" << *(Ptr + 2);
 
+	std::vector<std::vector<int32>> TripletArray = threeSum(Array);
+
+	for (uint32 i = 0U; i < TripletArray.size(); i++)
+	{
+
+		for (uint32 j = 0U; j < TripletArray[i].size(); j++)
+		{
+			std::cout << TripletArray[i][j] << " ";
+		}
+	}
 	while (true)
 	{
 
