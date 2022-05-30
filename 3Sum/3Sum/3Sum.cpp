@@ -5,43 +5,30 @@
 #include <iostream>
 #include "TypeDef.h"
 #include "vector"
+#include <algorithm> 
 
-std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
+std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 {
 	const uint32 ArraySize = Array.size();
 	int32 SortedArray[] = { 0 };
-	std::vector<std::vector<int32>> TripletArray
-	{
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{},
-		{}
-	};
-	uint32 LastNegativeIndex = NAN;
-	uint32 ZeroIndex = NAN ;
-	uint32 FirstPositiveIndex = NAN;
+	std::vector<std::vector<int>> TripletArray;
+	uint32 LeftSideIndex = NAN;
+	uint32 MiddleIndex = NAN ;
+	uint32 RightSideIndex = NAN;
 	bool NoPositive = true;
 	bool NoNegative = true;
 	bool NoZero = true;
 
-	if (ArraySize < 3U )
+	//sorting the array first
+	std::sort(Array.begin(), Array.end());
+
+	//no triplets if : items are less than 3, all positive values, or, all negative values
+	if ((ArraySize < 3U) || (Array[0] > 0) || (Array[ArraySize-1] <= 0))
 	{
 		return TripletArray;
 	}
+
+	/*
 	//sorting the array first
 	for (uint32 j = 0U; j < ArraySize - 1U; j++)
 	{
@@ -70,28 +57,28 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 		return TripletArray;
 	}
 
-	//finding the last -ve index 
-	for (uint32 i = ZeroIndex - 1U; i >= 0; i--)
-	{
-		if(Array[i] < 0)
-		{
-			LastNegativeIndex = i;
-			break;
-		}
-	}
+	*/
 
-	//finding 1st +ve index
 
-	for (uint32 i = ZeroIndex + 1U; i <ArraySize ; i++)
+	//finding the middle, leftside and rightside indexes 
+	for (uint32 i = 0U; i < ArraySize; i++)
 	{
 		if (Array[i] > 0)
 		{
-			FirstPositiveIndex = i;
-			break;
+			RightSideIndex = i;
+			if (Array[i - 1] == 0)
+			{
+				MiddleIndex = i - 1U;
+				LeftSideIndex = i - 2U;
+				break;
+			}
+			else
+			{
+				LeftSideIndex = i - 1U;
+				break;
+			}
 		}
 	}
-
-	//need to hold indexes of last -ve , zero, 1st +ve values in the array
 
 
 
@@ -104,14 +91,14 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 
 	}
 	
-	std::cout << "\n" << "Last -ve " << LastNegativeIndex << "\tZero " << ZeroIndex << "\tfirst +ve" << FirstPositiveIndex << "\n";
+	std::cout << "\n" << "Last -ve " << LeftSideIndex << "\tZero " << MiddleIndex << "\tfirst +ve" << RightSideIndex << "\n";
 
 
 
 	
 
 	//first loop to take X as 1st number fixed with me
-	for (uint32 i = 0U; i <= ZeroIndex; i++)
+	for (uint32 i = 0U; i <= MiddleIndex; i++)
 	{
 		//2ND loop to take Y as 2nd number fixed with me
 		for (uint32 j = i+1U; j < ArraySize - 1U; j++)
@@ -119,19 +106,15 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 			if ((Array[i] + Array[j]) < 0)
 			{
 				//start from the 1st +ve element looking for the right Z
-				for (uint32 k = FirstPositiveIndex; k < ArraySize; k++)
+				for (uint32 k = RightSideIndex; k < ArraySize; k++)
 				{
 					if ((Array[k] * -1) == (Array[i] + Array[j]))
 					{
-						static uint32 Dimension = 0U;
-						TripletArray[Dimension].push_back(Array[i]);
-						TripletArray[Dimension].push_back(Array[j]);
-						TripletArray[Dimension].push_back(Array[k]);
-
-						++Dimension;
+						TripletArray.push_back({ Array[i], Array[j], Array[k] });
 					}
 				}
 			}
+			/*
 			else if (((Array[i] + Array[j]) == 0) && ((Array[i] != 0) || (Array[j] != 0)))
 			{
 				std::cout << "no triplets found ";
@@ -142,6 +125,7 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 				std::cout << "no triplets found ";
 				return TripletArray;
 			}
+			*/
 		}
 	}
 
@@ -164,7 +148,7 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 
 int main()
 {
-	int32 DataArray[] = {NAN};
+	int32 DataArray[] = {-5, 5,1,2,6,9,1,0,2 };
 	uint32 Size = sizeof(DataArray) / sizeof(DataArray[0]);
 
 
@@ -175,7 +159,7 @@ int main()
 
 	//std::cout << "\nTriplets =" << *Ptr << "\t" << *(Ptr + 1) << "\t" << *(Ptr + 2);
 
-	std::vector<std::vector<int32>> TripletArray = threeSum(Array);
+	std::vector<std::vector<int>> TripletArray = threeSum(Array);
 
 	for (uint32 i = 0U; i < TripletArray.size(); i++)
 	{
