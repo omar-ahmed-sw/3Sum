@@ -10,13 +10,38 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 {
 	const uint32 ArraySize = Array.size();
 	int32 SortedArray[] = { 0 };
-	std::vector<std::vector<int32>> TripletArray ;
+	std::vector<std::vector<int32>> TripletArray
+	{
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{}
+	};
 	uint32 LastNegativeIndex = NAN;
 	uint32 ZeroIndex = NAN ;
 	uint32 FirstPositiveIndex = NAN;
 	bool NoPositive = true;
 	bool NoNegative = true;
 	bool NoZero = true;
+
+	if (ArraySize < 3U )
+	{
+		return TripletArray;
+	}
 	//sorting the array first
 	for (uint32 j = 0U; j < ArraySize - 1U; j++)
 	{
@@ -30,12 +55,11 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 				Array[i + 1] = Temp;
 				NoPositive = (Array[i] > 0) ? (false) : NoPositive;
 				NoNegative = (Array[i] < 0) ? (false) : NoNegative;
-
-				if (Array[i] == 0)
-				{
-					NoZero = false;
-					ZeroIndex = i;
-				}
+			}
+			if (Array[i] == 0)
+			{
+				NoZero = false;
+				ZeroIndex = i;
 			}
 		}
 	}
@@ -43,6 +67,7 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 	if (NoNegative || NoPositive)
 	{
 		std::cout << "no triplets found ";
+		return TripletArray;
 	}
 
 	//finding the last -ve index 
@@ -66,9 +91,10 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 		}
 	}
 
-
-
 	//need to hold indexes of last -ve , zero, 1st +ve values in the array
+
+
+
 
 	//printing debug
 
@@ -78,10 +104,14 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 
 	}
 	
-	std::cout << "\n" << "Last -ve " << LastNegativeIndex << "\tZero " << ZeroIndex << "\tfirst +ve" << FirstPositiveIndex;
+	std::cout << "\n" << "Last -ve " << LastNegativeIndex << "\tZero " << ZeroIndex << "\tfirst +ve" << FirstPositiveIndex << "\n";
+
+
+
+	
 
 	//first loop to take X as 1st number fixed with me
-	for (uint32 i = 0U; i < ArraySize - 1U; i++)
+	for (uint32 i = 0U; i <= ZeroIndex; i++)
 	{
 		//2ND loop to take Y as 2nd number fixed with me
 		for (uint32 j = i+1U; j < ArraySize - 1U; j++)
@@ -98,40 +128,43 @@ std::vector<std::vector<int32>> threeSum(std::vector<int32>& Array)
 						TripletArray[Dimension].push_back(Array[j]);
 						TripletArray[Dimension].push_back(Array[k]);
 
-
 						++Dimension;
-
-					/*	
-					static uint32 Dimension = 0U;
-						TripletArray[Dimension][0] = Array[i];
-						TripletArray[Dimension][1] = Array[j];
-						TripletArray[Dimension][2] = Array[k];
-						++Dimension;
-						//return TripletArray;
-						*/
 					}
 				}
 			}
 			else if (((Array[i] + Array[j]) == 0) && ((Array[i] != 0) || (Array[j] != 0)))
 			{
-				//return no triplets
+				std::cout << "no triplets found ";
+				return TripletArray;
 			}
 			else if ((Array[i] + Array[j]) > 0)
 			{
-				//return no triplets
+				std::cout << "no triplets found ";
+				return TripletArray;
+			}
+		}
+	}
+
+	for (uint32 i = 0U; i < TripletArray.size(); i++)
+	{
+		for (uint32 j = i+1U; j < TripletArray.size(); j++)
+		{
+			if (TripletArray[j] == TripletArray[i])
+			{
+				TripletArray[j].clear();
 			}
 		}
 	}
 
 	//std::cout << "\ntriplets = " << TripletArray[0] << "\t" << TripletArray[1] << "\t" << TripletArray[2];
 
-	return  TripletArray;
+	return   TripletArray;
 }
 
 
 int main()
 {
-	int32 DataArray[] = { 3,-1,4,-2,1,1,-2,-1, 0};
+	int32 DataArray[] = {NAN};
 	uint32 Size = sizeof(DataArray) / sizeof(DataArray[0]);
 
 
@@ -151,6 +184,7 @@ int main()
 		{
 			std::cout << TripletArray[i][j] << " ";
 		}
+		std::cout << "\n";
 	}
 	while (true)
 	{
