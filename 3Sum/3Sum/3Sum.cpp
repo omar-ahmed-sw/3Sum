@@ -43,36 +43,23 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 	}
 
 
-	if(Array[0] == 0)
-	{
-		LeftSideIndex = 0U;
-		MiddleIndex = 1U;
-		RightSideIndex = 2U;
-	}
-
-	else
-	{
 		//finding the middle, leftside and rightside indexes 
 		for (uint32 i = 0U; i < ArraySize; i++)
 		{
 			if (Array[i] > 0)
 			{
-				RightSideIndex = i;
-				if (Array[i - 1] == 0)
+				if (Array[i - 1] == 0U)
 				{
 					MiddleIndex = i - 1U;
-					LeftSideIndex = i - 2U;
-					break;
 				}
-				else
+				else 
 				{
-					LeftSideIndex = i - 1U;
-					break;
+					MiddleIndex = i;
 				}
+					break;
 			}
 		}
 
-	}
 
 
 	//printing debug
@@ -83,7 +70,7 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 
 	}
 	
-	std::cout << "\n" << "Last -ve " << LeftSideIndex << "\tZero " << MiddleIndex << "\tfirst +ve" << RightSideIndex << "\n";
+	//std::cout << "\n" << "Last -ve " << LeftSideIndex << "\tZero " << MiddleIndex << "\tfirst +ve" << RightSideIndex << "\n";
 
 
 
@@ -95,18 +82,17 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 		static uint32 LastTripletIndex = 0U;
 
 		//2ND loop to take Y as 2nd number fixed with me
-		for (uint32 j = i+1U; j < ArraySize - 1U; j++)
+		for (uint32 j = i+1U; j < ArraySize; j++)
 		{
 			
 			if ((Array[i] + Array[j]) <= 0)
 			{
 				//start from the 1st +ve element looking for the right Z
-				for (uint32 k = RightSideIndex; k < ArraySize; k++)
+				for (uint32 k = MiddleIndex + 1U; k < ArraySize; k++)
 				{
-
 					if ((!TripletArray.empty()) &&
-						((TripletArray[LastTripletIndex - 1][0] == Array[i]) || (TripletArray[LastTripletIndex - 1][1] == Array[i]))
-						&& ((TripletArray[LastTripletIndex - 1][1] == Array[j])||(TripletArray[LastTripletIndex - 1][0] == Array[j])))
+						((TripletArray[LastTripletIndex - 1][1] == Array[j]) || (TripletArray[LastTripletIndex - 1][2] == Array[j]))
+						&& ((TripletArray[LastTripletIndex - 1][1] == Array[k])||(TripletArray[LastTripletIndex - 1][2] == Array[k])))
 					{
 						continue;
 					}
@@ -154,7 +140,7 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 
 int main()
 {
-	int32 DataArray[] = { 0,0,0,0,0};
+	int32 DataArray[] = { 1,1,-2 };
 	uint32 Size = sizeof(DataArray) / sizeof(DataArray[0]);
 
 
