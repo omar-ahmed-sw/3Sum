@@ -73,8 +73,73 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 	//std::cout << "\n" << "Last -ve " << LeftSideIndex << "\tZero " << MiddleIndex << "\tfirst +ve" << RightSideIndex << "\n";
 
 
+	///First take triplets of -ve,0,+ve
+	if (Array[MiddleIndex] == 0)
+	{
+		for (uint32 i = 0U; i < MiddleIndex; i++)
+		{
+			if(Array[i+1] == Array[i])
+			{
+				continue;
+			}
+			for (uint32 j = MiddleIndex+1U; j < ArraySize; j++)
+			{
+				if (Array[i] == ((Array[j]) * -1))
+				{
+					TripletArray.push_back({ Array[i], 0, Array[j] });
+					break;
+				}
+			}
+		}
+	}
 
-	//uint32 LastTripletIndex = 0U;
+	//Second do the -ve,-ve,+ve triplets
+
+	for (uint32 i = 0U; i < MiddleIndex - 1U; i++)
+	{
+		for (uint32 j = i + 1U; j < MiddleIndex; j++)
+		{
+			if ((Array[i] + Array[j]) > ((Array[ArraySize - 1]) * -1))
+			{
+				break;
+			}
+			for (uint32 k = MiddleIndex; k < ArraySize; k++)
+			{
+				if (Array[i] + Array[j] + Array[k] == 0)
+				{
+					TripletArray.push_back({ Array[i], Array[j], Array[k] });
+				}
+			}
+
+		}
+	}
+
+
+	///Third Triplets of -ve, +ve, +ve
+
+	for (uint32 i = MiddleIndex + 1U; i < ArraySize - 1U; i++)
+	{
+		for (uint32 j = i + 1U; j < ArraySize; j++)
+		{
+			if ((Array[i] + Array[j]) > ((Array[0]) * -1))
+			{
+				break;
+			}
+			for (uint32 k = 0U; k < MiddleIndex - 1U; k++)
+			{
+				if (Array[i] + Array[j] + Array[k] == 0)
+				{
+					TripletArray.push_back({ Array[i], Array[j], Array[k] });
+				}
+			}
+
+		}
+	}
+
+
+
+	
+	/*
 
 	//first loop to take X as 1st number fixed with me
 	for (uint32 i = 0U; i <= MiddleIndex; i++)
@@ -108,7 +173,12 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 					}
 				}
 			}
-			/*
+
+
+			
+			
+			
+			
 			else if (((Array[i] + Array[j]) == 0) && ((Array[i] != 0) || (Array[j] != 0)))
 			{
 				std::cout << "no triplets found ";
@@ -119,9 +189,11 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 				std::cout << "no triplets found ";
 				return TripletArray;
 			}
-			*/
+			
 		}
 	}
+	*/
+
 
 	/*
 	//fix duplication
@@ -144,7 +216,7 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 
 int main()
 {
-	int32 DataArray[] = { 1,1,-2 };
+	int32 DataArray[] = { -5,3,2,1,2,-1,0,0,-2,5,3,-1,9,2,-3,-1,1 };
 	uint32 Size = sizeof(DataArray) / sizeof(DataArray[0]);
 
 
