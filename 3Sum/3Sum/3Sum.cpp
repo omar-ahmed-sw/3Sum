@@ -92,9 +92,13 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 				{
 					if ((!TripletArray.empty()) &&
 						((TripletArray[LastTripletIndex - 1][1] == Array[j]) || (TripletArray[LastTripletIndex - 1][2] == Array[j]))
-						&& ((TripletArray[LastTripletIndex - 1][1] == Array[k])||(TripletArray[LastTripletIndex - 1][2] == Array[k])))
+						&& (TripletArray[LastTripletIndex - 1][0] == Array[i]))
 					{
 						continue;
+					}
+					if(j == k)
+					{
+						++k;
 					}
 
 					if ((Array[k] * -1) == (Array[i] + Array[j]))
