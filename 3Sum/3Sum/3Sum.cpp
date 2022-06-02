@@ -15,9 +15,6 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 	uint32 LastNegIndex;
 	uint32 MiddleIndex ;
 	uint32 FisrtPosIndex;
-	bool NoPositive = true;
-	bool NoNegative = true;
-	bool NoZero = true;
 
 	//no triplets if : items are less than 3 before even sorting
 	if (ArraySize < 3U)
@@ -74,7 +71,7 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 		}
 
 
-
+		/*
 	//printing debug
 
 	for (uint32 i = 0U; i < ArraySize; i++)
@@ -84,7 +81,7 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 	}
 	
 	//std::cout << "\n" << "Last -ve " << LeftSideIndex << "\tZero " << MiddleIndex << "\tfirst +ve" << RightSideIndex << "\n";
-
+	*/
 
 	///First take triplets of -ve,0,+ve
 	if (Array[MiddleIndex] == 0)
@@ -199,78 +196,6 @@ std::vector<std::vector<int>> threeSum(std::vector<int32>& Array)
 
 	}
 
-	
-	/*
-
-	//first loop to take X as 1st number fixed with me
-	for (uint32 i = 0U; i <= MiddleIndex; i++)
-	{
-		static uint32 LastTripletIndex = 0U;
-
-		//2ND loop to take Y as 2nd number fixed with me
-		for (uint32 j = i+1U; j < ArraySize; j++)
-		{
-			
-			if ((Array[i] + Array[j]) <= 0)
-			{
-				//start from the 1st +ve element looking for the right Z
-				for (uint32 k = MiddleIndex + 1U; k < ArraySize; k++)
-				{
-					if ((!TripletArray.empty()) &&
-						((TripletArray[LastTripletIndex - 1][1] == Array[j]) || (TripletArray[LastTripletIndex - 1][2] == Array[j]))
-						&& (TripletArray[LastTripletIndex - 1][0] == Array[i]))
-					{
-						continue;
-					}
-					if(j == k)
-					{
-						++k;
-					}
-
-					if ((Array[k] * -1) == (Array[i] + Array[j]))
-					{
-						TripletArray.push_back({ Array[i], Array[j], Array[k] });
-						++LastTripletIndex;
-					}
-				}
-			}
-
-
-			
-			
-			
-			
-			else if (((Array[i] + Array[j]) == 0) && ((Array[i] != 0) || (Array[j] != 0)))
-			{
-				std::cout << "no triplets found ";
-				return TripletArray;
-			}
-			else if ((Array[i] + Array[j]) > 0)
-			{
-				std::cout << "no triplets found ";
-				return TripletArray;
-			}
-			
-		}
-	}
-	*/
-
-
-	/*
-	//fix duplication
-	for (uint32 i = 0U; i < TripletArray.size(); i++)
-	{
-		for (uint32 j = i+1U; j < TripletArray.size(); j++)
-		{
-			if (TripletArray[j] == TripletArray[i])
-			{
-				TripletArray[j].clear();
-			}
-		}
-	}
-	*/
-	//std::cout << "\ntriplets = " << TripletArray[0] << "\t" << TripletArray[1] << "\t" << TripletArray[2];
-
 	return   TripletArray;
 }
 
@@ -284,12 +209,7 @@ int main()
 
 	std::vector <int32> Array(DataArray, DataArray + Size);
 
-	//int32 Ptr = threeSum(Array);
-
-	//std::cout << "\nTriplets =" << *Ptr << "\t" << *(Ptr + 1) << "\t" << *(Ptr + 2);
-
 	std::vector<std::vector<int>> TripletArray = threeSum(Array);
-
 
 	std::cout << "\n\n";
 
